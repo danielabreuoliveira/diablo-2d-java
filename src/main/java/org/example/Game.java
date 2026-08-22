@@ -1,15 +1,15 @@
 package org.example;
 
-import javax.swing.*;
+import javax.swing.JFrame;
 
 public class Game {
 
     private JFrame window;
     private GamePanel gamePanel;
 
-    public Game(){
+    public Game() {
 
-        window = new JFrame("Diablo 2d");
+        window = new JFrame("Diablo 2D");
 
         gamePanel = new GamePanel();
 
@@ -19,5 +19,7 @@ public class Game {
         window.add(gamePanel);
         window.setLocationRelativeTo(null);
         window.setVisible(true);
+
+        gamePanel.startGameLoop();
     }
 }
