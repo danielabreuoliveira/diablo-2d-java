@@ -3,6 +3,7 @@ package org.example;
 import javax.swing.JPanel;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 public class GamePanel extends JPanel implements Runnable {
 
@@ -10,8 +11,19 @@ public class GamePanel extends JPanel implements Runnable {
 
     private final int FPS = 60;
 
+    private KeyHandler keyHandler;
+    private Player player;
+
     public GamePanel() {
+
         setBackground(Color.BLACK);
+
+        keyHandler = new KeyHandler();
+
+        addKeyListener(keyHandler);
+        setFocusable(true);
+
+        player = new Player(keyHandler);
     }
 
     public void startGameLoop() {
@@ -37,7 +49,7 @@ public class GamePanel extends JPanel implements Runnable {
                 double remainingTime =
                         nextDrawTime - System.nanoTime();
 
-                remainingTime = remainingTime / 1_000_000;
+                remainingTime /= 1_000_000;
 
                 if (remainingTime < 0) {
                     remainingTime = 0;
@@ -56,7 +68,8 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     private void update() {
-        // Atualização do jogo
+
+        player.update();
     }
 
     @Override
@@ -64,7 +77,10 @@ public class GamePanel extends JPanel implements Runnable {
 
         super.paintComponent(g);
 
-        g.setColor(Color.WHITE);
-        g.drawString("Diablo 2D", 20, 30);
+        Graphics2D g2 = (Graphics2D) g;
+
+        player.draw(g2);
+
+        g2.dispose();
     }
 }
